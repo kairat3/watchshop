@@ -29,10 +29,6 @@ class RegisterApiSerializer(serializers.ModelSerializer):
 class LoginSerializer(TokenObtainPairSerializer):
     password = serializers.CharField(min_length=6, required=True, write_only=True)
 
-    # class Meta:
-    #     model = User
-    #     fields = ('email', 'password', 'password2')
-
     def validate(self, attrs):
         email = attrs.get('email')
         password = attrs.pop('password', None)

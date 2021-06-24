@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
 
     'user',
     'review',
@@ -142,8 +143,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'jackdtestdjango@gmail.com'
-EMAIL_HOST_PASSWORD = 'nokia1600'
+EMAIL_HOST_USER = 'nurkulovtest@gmail.com'
+EMAIL_HOST_PASSWORD = 'makers11python'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
@@ -152,6 +153,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':
         [
             'rest_framework_simplejwt.authentication.JWTAuthentication',
+        ],
+    'DEFAULT_FILTER_BACKENDS':
+        [
+            'django_filters.rest_framework.DjangoFilterBackend'
         ]
 }
 

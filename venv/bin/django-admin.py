@@ -1,4 +1,4 @@
-#!/home/ka/projects/watchshop/venv/bin/python
+#!/home/nurba/Desktop/watch_shop/watchshop/venv/bin/python
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
