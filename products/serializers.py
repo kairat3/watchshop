@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from like.models import Like
 from products.models import Product, Category, PostImages
 
 
@@ -30,3 +32,8 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
         PostImages.objects.bulk_create(images_obj)
         return created_product
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['like_count'] = f'{Like.objects.filter(id=instance.id).count()}'
+        return representation
