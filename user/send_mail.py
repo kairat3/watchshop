@@ -12,3 +12,5 @@ def send_confirmation_email(user):
         [to_email],
         fail_silently=False,
     )
+
+
