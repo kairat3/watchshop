@@ -1,3 +1,4 @@
+from rest_framework.filters import SearchFilter
 from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
 
@@ -22,6 +23,8 @@ class ProductListView(generics.ListAPIView):
     serializer_class = serializers.ProductSerializer
     permission_classes = (permissions.AllowAny, )
     pagination_class = StandardResultsSetPagination
+    filter_backends = [SearchFilter]
+    filterset_fields = ('title', 'category', )
 
 
 class ProductDetailView(generics.ListAPIView):
