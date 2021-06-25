@@ -13,7 +13,7 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email=email)
         user = self.model(email=email, **kwargs)
         user.create_activation_code()
-        user.set_password(password)
+        # user.set_password(password)
         user.save(using=self._db)
         return user
 

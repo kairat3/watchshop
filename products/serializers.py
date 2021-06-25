@@ -35,5 +35,5 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['like_count'] = Like.objects.filter(id=instance.id).count()
+        representation['like_count'] = Like.objects.filter(post=instance.id).count()
         return representation
