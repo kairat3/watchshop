@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'user',
     'review',
     'products',
-    'like',
     'rest_framework',
     'corsheaders',
     'drf_yasg',
@@ -144,8 +143,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'jackdtestdjango@gmail.com'
-EMAIL_HOST_PASSWORD = 'nokia1600'
+EMAIL_HOST_USER = 'nurkulovtest@gmail.com'
+EMAIL_HOST_PASSWORD = 'makers11python'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media/'

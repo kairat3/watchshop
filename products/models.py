@@ -1,7 +1,6 @@
-import os
-import random
-from ckeditor.fields import RichTextField
 from django.db import models
+
+from user.models import CustomUser
 
 
 class DataABC(models.Model):
@@ -56,3 +55,21 @@ class PostImages(models.Model):
 
     def __str__(self):
         return f"{self.title} --> {self.post.id}"
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='favorites')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='favorites')
+    favorite = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user} added to favorite'
+
+
+class Like(models.Model):
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='likes')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='likes')
+    like = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.owner} - {self.product}'
