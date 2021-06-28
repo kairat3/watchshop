@@ -8,3 +8,4 @@ admin.site.register(Product)
 admin.site.register(Like)
 admin.site.register(Favorite)
 admin.site.register(Bag)
+
