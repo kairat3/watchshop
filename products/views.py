@@ -1,13 +1,13 @@
-
 from rest_framework import generics, permissions, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
-
+from django_filters import rest_framework as filters
 from . import serializers
 from .models import Product, Category, Like, Favorite, Bag
 from .serializers import FavoriteSerializer
+from django.db.models import Q
 
 
 class PermissionMixin:
@@ -40,6 +40,16 @@ class ProductListView(PermissionMixin, viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductSerializer
     pagination_class = StandardResultsSetPagination
+    filters_backends = (filters.DjangoFilterBackend, )
+    filterset_fields = ('title', 'price', 'category')
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.query_params.get('search', '')
+        if search:
+            queryset = queryset.filter(Q(title__icontains=search) | Q(id__icontains=search) | Q(price__icontains=search))
+        return queryset
+
 
     @action(detail=True, methods=['post'])
     def like(self, request, pk=None):
