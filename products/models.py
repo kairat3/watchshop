@@ -57,6 +57,15 @@ class PostImages(models.Model):
         return f"{self.title} --> {self.post.id}"
 
 
+class Bag(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='bag')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='bag')
+    in_bag = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user} added to favorite'
+
+
 class Favorite(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='favorites')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='favorites')

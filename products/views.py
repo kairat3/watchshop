@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
 from . import serializers
-from .models import Product, Category, Like, Favorite
+from .models import Product, Category, Like, Favorite, Bag
 from .serializers import FavoriteSerializer
 
 
@@ -62,6 +62,17 @@ class ProductListView(PermissionMixin, viewsets.ModelViewSet):
         added_removed = 'added' if obj.favorite else 'removed'
         return Response('Successfully {} favorite'.format(added_removed), status=status.HTTP_200_OK)
 
+    @action(detail=True, methods=['post'])
+    def bag(self, request, pk=None):
+        product = self.get_object()
+        obj, created = Bag.objects.get_or_create(user=request.user, product=product)
+        if not created:
+            obj.in_bag = not obj.in_bag
+            print(obj.in_bag)
+            obj.save()
+        added_removed = 'added to' if obj.in_bag else 'removed from'
+        return Response('Successfully {} bag'.format(added_removed), status=status.HTTP_200_OK)
+
 
 class FavoriteListView(generics.ListAPIView):
     queryset = Favorite.objects.all()
@@ -71,3 +82,13 @@ class FavoriteListView(generics.ListAPIView):
         qs = self.request.user
         queryset = Favorite.objects.filter(user=qs, favorite=True)
         return queryset
+
+class BagListView(generics.ListAPIView):
+    queryset = Bag.objects.all()
+    serializer_class = FavoriteSerializer
+
+    def get_queryset(self):
+        qs = self.request.user
+        queryset = Bag.objects.filter(user=qs, in_bag=True)
+        return queryset
+

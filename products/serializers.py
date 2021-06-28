@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from products.models import Product, Category, PostImages, Favorite, Like
+from products.models import Product, Category, PostImages, Favorite, Like, Bag
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -62,23 +62,18 @@ class FavoriteSerializer(serializers.ModelSerializer):
         return representation
 
 
-# class ProductSerializer(serializers.ModelSerializer):
-#
-#     class Meta:
-#         model = Product
-#         fields = '__all__'
-#
-#     def create(self, validated_data):
-#         request = self.context.get('request')
-#         images_data = request.FILES
-#         created_product = Product.objects.create(**validated_data)
-#         images_obj = [
-#             PostImages(post=created_product, image=image) for image in images_data.getlist('images')
-#         ]
-#         PostImages.objects.bulk_create(images_obj)
-#         return created_product
-#
-#     def to_representation(self, instance):
-#         representation = super().to_representation(instance)
-#         representation['like_count'] = Like.objects.filter(id=instance.id).count()
-#         return representation
+class BagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bag
+        fields = '__all__'
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        user = request.user
+        review = Bag.objects.create(user=user, **validated_data)
+        return review
+
+    def to_representation(self, instance):
+        representation = super(BagSerializer, self).to_representation(instance)
+        representation['user'] = instance.user.email
+        return representation

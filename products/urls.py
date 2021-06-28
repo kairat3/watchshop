@@ -9,4 +9,6 @@ from . import views
 
 urlpatterns = [
     path('favorites/', views.FavoriteListView.as_view()),
+    path('bag/', views.BagListView.as_view()),
+
 ]
