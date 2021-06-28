@@ -40,7 +40,6 @@ INSTALLED_APPS = [
 
     'user',
     'review',
-    'products',
     'rest_framework',
     'corsheaders',
     'drf_yasg',
