@@ -89,15 +89,20 @@ class FavoriteListView(generics.ListAPIView):
     serializer_class = FavoriteSerializer
 
     def get_queryset(self):
+        if getattr(self, 'swagger_fake_view', False):
+            return Favorite.objects.none()
         qs = self.request.user
         queryset = Favorite.objects.filter(user=qs, favorite=True)
         return queryset
+
 
 class BagListView(generics.ListAPIView):
     queryset = Bag.objects.all()
     serializer_class = FavoriteSerializer
 
     def get_queryset(self):
+        if getattr(self, 'swagger_fake_view', False):
+            return Bag.objects.none()
         qs = self.request.user
         queryset = Bag.objects.filter(user=qs, in_bag=True)
         return queryset
