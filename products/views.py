@@ -55,7 +55,7 @@ class ProductListView(PermissionMixin, viewsets.ModelViewSet):
     def like(self, request, pk=None):
         product = self.get_object()
         obj, created = Like.objects.get_or_create(owner=request.user, product=product)
-        if not created:
+        if created:
             obj.like = not obj.like
             obj.save()
         liked_or_unliked = 'liked' if obj.like else 'unliked'
@@ -65,7 +65,7 @@ class ProductListView(PermissionMixin, viewsets.ModelViewSet):
     def favorite(self, request, pk=None):
         product = self.get_object()
         obj, created = Favorite.objects.get_or_create(user=request.user, product=product)
-        if not created:
+        if created:
             obj.favorite = not obj.favorite
             print(obj.favorite)
             obj.save()
@@ -76,7 +76,7 @@ class ProductListView(PermissionMixin, viewsets.ModelViewSet):
     def bag(self, request, pk=None):
         product = self.get_object()
         obj, created = Bag.objects.get_or_create(user=request.user, product=product)
-        if not created:
+        if created:
             obj.in_bag = not obj.in_bag
             print(obj.in_bag)
             obj.save()
