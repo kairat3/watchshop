@@ -60,7 +60,7 @@ class PostImages(models.Model):
 class Bag(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='bag')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='bag')
-    in_bag = models.BooleanField(default=False)
+    in_bag = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.user} added to favorite'
@@ -69,7 +69,7 @@ class Bag(models.Model):
 class Favorite(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='favorites')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='favorites')
-    favorite = models.BooleanField(default=False)
+    favorite = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.user} added to favorite'
@@ -78,7 +78,7 @@ class Favorite(models.Model):
 class Like(models.Model):
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='likes')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='likes')
-    like = models.BooleanField(default=False)
+    like = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.owner} - {self.product}'

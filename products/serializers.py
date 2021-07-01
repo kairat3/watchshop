@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
 from products.models import Product, Category, PostImages, Favorite, Like, Bag
+from review.models import Review
+from review.serializers import ReviewSerializer
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -36,12 +38,15 @@ class ProductSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super(ProductSerializer, self).to_representation(instance)
         action = self.context.get('action')
+        request = self.context.get('request')
         likes = LikeSerializer(instance.likes.filter(like=True), many=True).data
+        reviews = ReviewSerializer(instance.review.filter(owner=request.user), many=True).data
         if action == 'list':
             representation['likes'] = {'like': likes}
             representation['likes'] = instance.likes.filter(like=True).count()
         if action == 'retrieve':
-            representation['likes'] = likes
+            representation['review'] = reviews
+            # representation['review'] = ReviewSerializer(instance.review.all())
         return representation
 
 
