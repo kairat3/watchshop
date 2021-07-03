@@ -31,22 +31,24 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     likes = LikeSerializer(many=True, read_only=True)
+    review = ReviewSerializer(many=True, read_only=True)
+
     class Meta:
         model = Product
-        fields = ('title', 'description', 'price', 'preview', 'likes',)
+        fields = ('title', 'description', 'price', 'preview', 'likes', 'review')
 
     def to_representation(self, instance):
         representation = super(ProductSerializer, self).to_representation(instance)
         action = self.context.get('action')
         request = self.context.get('request')
         likes = LikeSerializer(instance.likes.filter(like=True), many=True).data
-        reviews = ReviewSerializer(instance.review.filter(owner=request.user), many=True).data
+        # reviews = ReviewSerializer(instance.review.all()).data
         if action == 'list':
             representation['likes'] = {'like': likes}
             representation['likes'] = instance.likes.filter(like=True).count()
-        if action == 'retrieve':
-            representation['review'] = reviews
-            # representation['review'] = ReviewSerializer(instance.review.all())
+            print(representation)
+        # if action == 'retrieve':
+            # representation['review'] = reviews
         return representation
 
 

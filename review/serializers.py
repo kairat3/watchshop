@@ -7,9 +7,10 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ('id', 'body', 'product', 'owner')
+        fields = ('body', 'product', 'owner')
 
     def to_representation(self, instance):
         representation = super(ReviewSerializer, self).to_representation(instance)
         representation['owner'] = instance.owner.email
+        print(f'11111{representation}')
         return representation
